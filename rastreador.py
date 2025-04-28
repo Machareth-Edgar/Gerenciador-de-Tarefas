@@ -21,33 +21,41 @@
 
 
 while True:
-    lista_de_tarefas = [
-    [],
-    [],
-    [],
-    []
-    ]
     print("\nBem-Vindo Ao Gerenciador de Tarefas! O que você deseja fazer ?")
     print("1 - Adicionar uma Tarefa")
     print("2 - Adicionar Descrição a uma Tarefa")
     print("3 - Progresso da Tarefa")
     print("4 - Excluir uma Tarefa")
-    print("5 - Sair")
+    print("5 - Visualizar Tarefas")
+    print("6 - Sair")
     menu = input("Opcao: ")
-
+    lista_de_tarefas = []
     if menu == "1":
         print("Você escolheu adicionar uma Tarefa")
         adicionar_tarefa = input("Adicione Uma Tarefa: ")
-        lista_de_tarefas[0].append(adicionar_tarefa)
+        lista_de_tarefas.append(adicionar_tarefa)
         print(f"Tarefa adicionada com sucesso!:", lista_de_tarefas)
         continuar = input("Deseja adicionar mais tarefas? (s/n): ")
         if continuar == "s":
-            while True:
-                print("Você escolheu adicionar uma Nova Tarefa")
-                adicionar_tarefa = input("Adicione Uma Nova Tarefa: ")
-                for adicionar in range(len(lista_de_tarefas)):
-                     lista_de_tarefas[adicionar].append(adicionar_tarefa)
-                print(f"Tarefa adicionada com sucesso!:", lista_de_tarefas)
+            limite = 5
+            for limites in range(limite):
+                nova_tarefa = input("Adicione uma nova tarefa: ")
+                lista_de_tarefas.append(nova_tarefa)
+                if len(lista_de_tarefas) >= limite:
+                    print("Você alcançou o máximo de tarefas hoje, conclua-as primeiro!")
+                    break
+                print(f"Você optou por adicionar uma nova Tarefa.")
+                print(f"\nSua lista de Tarefas é: ", lista_de_tarefas)
                 continuar = input("Deseja adicionar mais tarefas? (s/n): ")
+                if continuar == "s":
+                    continue
+                elif continuar == "n":
+                    break
+
+
+
         elif continuar == "n":
-                continue
+            ...
+    if menu == "5":
+        print(f"\nSua lista de tarefas é: ",lista_de_tarefas)
+        break
