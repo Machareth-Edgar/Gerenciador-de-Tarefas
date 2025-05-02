@@ -17,45 +17,36 @@
 # Não use nenhuma biblioteca ou estrutura externa para construir este projeto.
 # Certifique-se de lidar com erros e casos extremos com elegância.
 #Criar arquivo caso não exista
+lista_de_tarefas = []
+def salvar_tarefa(nome_tarefa):
+    with open(nome_tarefa, "w", encoding="utf-8") as arquivo:
+        arquivo.write("[\n")
 
+        for i, tarefa in enumerate(lista_de_tarefas):
+            arquivo.write(f'  {{"tarefa": "{tarefa}"}}')
+            if i < len(lista_de_tarefas) - 1:
+                arquivo.write(",\n")
+            else:
+                arquivo.write("\n")
 
+        arquivo.write("]")
 
-while True:
-    print("\nBem-Vindo Ao Gerenciador de Tarefas! O que você deseja fazer ?")
+    print(f'Tarefa salva em {nome_tarefa}')
+
+def gerenciador_tarefas():
+    print("\nBem-Vindo ao Gerenciador de Tarefas!")
     print("1 - Adicionar uma Tarefa")
-    print("2 - Adicionar Descrição a uma Tarefa")
+    print("2 - Adicionar uma Descrição")
     print("3 - Progresso da Tarefa")
     print("4 - Excluir uma Tarefa")
-    print("5 - Visualizar Tarefas")
-    print("6 - Sair")
-    menu = input("Opcao: ")
-    lista_de_tarefas = []
-    if menu == "1":
-        print("Você escolheu adicionar uma Tarefa")
-        adicionar_tarefa = input("Adicione Uma Tarefa: ")
-        lista_de_tarefas.append(adicionar_tarefa)
-        print(f"Tarefa adicionada com sucesso!:", lista_de_tarefas)
-        continuar = input("Deseja adicionar mais tarefas? (s/n): ")
-        if continuar == "s":
-            limite = 5
-            for limites in range(limite):
-                nova_tarefa = input("Adicione uma nova tarefa: ")
-                lista_de_tarefas.append(nova_tarefa)
-                if len(lista_de_tarefas) >= limite:
-                    print("Você alcançou o máximo de tarefas hoje, conclua-as primeiro!")
-                    break
-                print(f"Você optou por adicionar uma nova Tarefa.")
-                print(f"\nSua lista de Tarefas é: ", lista_de_tarefas)
-                continuar = input("Deseja adicionar mais tarefas? (s/n): ")
-                if continuar == "s":
-                    continue
-                elif continuar == "n":
-                    break
+    print("5 - Sair")
 
+    opcao = input("Qual opção deseja?: ")
+    if opcao == "1":
+        print("Você optou por adicionar uma Tarefa!")
+        tarefa = input("Adicione a sua Tarefa: ")
+        print(f'Tarefa {tarefa} adicionada com sucesso!')
+        lista_de_tarefas.append(tarefa)
+        salvar_tarefa("tarefas.json")
 
-
-        elif continuar == "n":
-            ...
-    if menu == "5":
-        print(f"\nSua lista de tarefas é: ",lista_de_tarefas)
-        break
+gerenciador_tarefas()
