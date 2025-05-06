@@ -17,36 +17,59 @@
 # Não use nenhuma biblioteca ou estrutura externa para construir este projeto.
 # Certifique-se de lidar com erros e casos extremos com elegância.
 #Criar arquivo caso não exista
-lista_de_tarefas = []
-def salvar_tarefa(nome_tarefa):
-    with open(nome_tarefa, "w", encoding="utf-8") as arquivo:
-        arquivo.write("[\n")
 
-        for i, tarefa in enumerate(lista_de_tarefas):
-            arquivo.write(f'  {{"tarefa": "{tarefa}"}}')
-            if i < len(lista_de_tarefas) - 1:
-                arquivo.write(",\n")
-            else:
-                arquivo.write("\n")
 
-        arquivo.write("]")
-
-    print(f'Tarefa salva em {nome_tarefa}')
-
-def gerenciador_tarefas():
-    print("\nBem-Vindo ao Gerenciador de Tarefas!")
+#Gerenciador de opções
+def gerenciador():
+    print("\n Seja Bem-Vindo, em que posso ajudar ?")
     print("1 - Adicionar uma Tarefa")
-    print("2 - Adicionar uma Descrição")
-    print("3 - Progresso da Tarefa")
-    print("4 - Excluir uma Tarefa")
-    print("5 - Sair")
+    print("2 - Progresso de uma Tarefa")
+    print("3 - Listar Tarefas")
+    print("4 - Sair")
+    opcao = input("Qual opção você deseja? ")
 
-    opcao = input("Qual opção deseja?: ")
     if opcao == "1":
-        print("Você optou por adicionar uma Tarefa!")
-        tarefa = input("Adicione a sua Tarefa: ")
-        print(f'Tarefa {tarefa} adicionada com sucesso!')
-        lista_de_tarefas.append(tarefa)
-        salvar_tarefa("tarefas.json")
+        tarefa_json = input("Digite a sua Tarefa: ")
+        contador = 1
+        while True:
+            nome_tarefa = f"tarefa_{contador}.json"
+            try:
+                with open(nome_tarefa, "r"):
+                    contador += 1
+            except FileNotFoundError:
+                break
+        with open(nome_tarefa,"w", encoding="utf-8") as arquivo:
+            arquivo.write(f'{{"Tarefa":"{tarefa_json}"}}')
+        print(f"{nome_tarefa} criada!")
+    
 
-gerenciador_tarefas()
+
+    if opcao == "2":
+        nome_arquivo = input("Digite a Tarefa que Gostaria de Progredir: ")
+    
+        try:
+            with open(nome_arquivo, "r", encoding="utf-8") as arquivo:
+                progresso = arquivo.read()
+                if progresso.endswith("}"):
+                    progresso = progresso[:-1] + ",\n"
+                else:
+                    progresso = "{\n"
+
+        except FileNotFoundError:
+            progresso = "{\n"
+
+        dados_progresso = input("Qual o progresso da Tarefa ? (Concluida) (Em andamento) (Não Concluida): ")
+        texto_progresso = f'"Progresso": "{dados_progresso}"'
+        progresso_json =  progresso + texto_progresso + "\n}"
+
+        with open(nome_arquivo, "w", encoding="utf-8") as arquivo:
+            arquivo.write(progresso_json)
+
+
+    if opcao == "3":
+        print("\nComo gostaria de visualizar as Tarefas ?")
+        print("1 - Listar Todas as Tarefas")
+        print("2 - Listar Apenas Concluídas")
+        print("3 - Listar Não Concluídas")
+        print("4 - Listar Em Andamento")
+gerenciador()
